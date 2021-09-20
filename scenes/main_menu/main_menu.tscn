@@ -1,0 +1,51 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scenes/main_menu/main_menu.tres" type="Theme" id=1]
+[ext_resource path="res://scenes/main_menu/main_menu.gd" type="Script" id=2]
+
+[node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Jam" type="Label" parent="VBoxContainer"]
+margin_top = 77.0
+margin_right = 480.0
+margin_bottom = 100.0
+text = "Paint Jam but long this time 2021"
+align = 1
+
+[node name="Title" type="Label" parent="VBoxContainer"]
+margin_top = 104.0
+margin_right = 480.0
+margin_bottom = 127.0
+text = "GAME TITLE HERE"
+align = 1
+
+[node name="Start" type="Button" parent="VBoxContainer"]
+margin_top = 131.0
+margin_right = 480.0
+margin_bottom = 160.0
+text = "Start"
+
+[node name="Continue" type="Button" parent="VBoxContainer"]
+margin_top = 164.0
+margin_right = 480.0
+margin_bottom = 193.0
+text = "Continue"
+
+[connection signal="pressed" from="VBoxContainer/Start" to="." method="_on_start_pressed"]
