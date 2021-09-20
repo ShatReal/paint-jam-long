@@ -19,5 +19,6 @@ func select(on: bool) -> void:
 	selected = on
 	if selected:
 		modulate = Color.orangered
+		$AudioStreamPlayer.play()
 	else:
 		modulate = Color.white

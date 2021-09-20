@@ -115,7 +115,8 @@ func _on_battler_died(battler: AnimatedSprite) -> void:
 		_change_state(OVER)
 	else:
 		battler.queue_free()
-		if $Battlers.get_child_count() == 5:
+		yield(get_tree(), "idle_frame")
+		if $Battlers.get_child_count() == 4:
 			_won = true
 			_change_state(OVER)
 		else:
@@ -164,6 +165,7 @@ func _check_for_square() -> bool:
 		
 
 func _replace_blocks() -> void:
+	$BlockMatch.play()
 	var total_free_top := 0
 	var total_free_bottom := 0
 	for block in _selected_blocks:
@@ -188,6 +190,7 @@ func _change_state(new_state) -> void:
 		WAIT:
 			pass
 		PLAYER:
+			$SpellShoot.play()
 			if _spell_queue[0][0] == 2:
 				_player.change_health(_player.skills[_spell_queue[0][0] * 3 +\
 				_spell_queue[0][1]] * _player.attack)

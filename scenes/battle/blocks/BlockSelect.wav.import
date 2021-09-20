@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/BlockSelect.wav-b9df882b60966341721df6786a21d6e7.sample"
+
+[deps]
+
+source_file="res://scenes/battle/blocks/BlockSelect.wav"
+dest_files=[ "res://.import/BlockSelect.wav-b9df882b60966341721df6786a21d6e7.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

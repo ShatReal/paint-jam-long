@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/SpellShoot.wav-a06b3e725ae11a86b7c327653eababcb.sample"
+
+[deps]
+
+source_file="res://scenes/battle/SpellShoot.wav"
+dest_files=[ "res://.import/SpellShoot.wav-a06b3e725ae11a86b7c327653eababcb.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
