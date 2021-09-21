@@ -120,6 +120,7 @@ func _on_battler_died(battler: AnimatedSprite) -> void:
 			_won = true
 			_change_state(OVER)
 		else:
+# warning-ignore:narrowing_conversion
 			_target = clamp(_target, 4, $Battlers.get_child_count())
 			$Battlers.get_child(_target).set_target()
 	

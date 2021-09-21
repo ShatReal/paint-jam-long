@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/PaintJamMusic.mp3-9d3bda805d4a84b3e34e5c21fe54e78c.mp3str"
+
+[deps]
+
+source_file="res://scenes/main_menu/PaintJamMusic.mp3"
+dest_files=[ "res://.import/PaintJamMusic.mp3-9d3bda805d4a84b3e34e5c21fe54e78c.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
