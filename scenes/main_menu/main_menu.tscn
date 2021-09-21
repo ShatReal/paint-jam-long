@@ -1,8 +1,13 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scenes/main_menu/main_menu.tres" type="Theme" id=1]
 [ext_resource path="res://scenes/main_menu/main_menu.gd" type="Script" id=2]
 [ext_resource path="res://scenes/main_menu/PaintJamMusic.mp3" type="AudioStream" id=3]
+[ext_resource path="res://fonts/COMICBD.TTF" type="DynamicFontData" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 32
+font_data = ExtResource( 4 )
 
 [node name="MainMenu" type="Control"]
 anchor_right = 1.0
@@ -14,9 +19,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.533333, 0, 0.0823529, 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+custom_constants/separation = 20
 alignment = 1
 __meta__ = {
 "_edit_lock_": true,
@@ -24,29 +39,34 @@ __meta__ = {
 }
 
 [node name="Jam" type="Label" parent="VBoxContainer"]
-margin_top = 77.0
+margin_top = 47.0
 margin_right = 480.0
-margin_bottom = 100.0
+margin_bottom = 70.0
 text = "Paint Jam but long this time 2021"
 align = 1
 
 [node name="Title" type="Label" parent="VBoxContainer"]
-margin_top = 104.0
+margin_top = 90.0
 margin_right = 480.0
-margin_bottom = 127.0
+margin_bottom = 136.0
+custom_fonts/font = SubResource( 1 )
 text = "GAME TITLE HERE"
 align = 1
 
 [node name="Start" type="Button" parent="VBoxContainer"]
-margin_top = 131.0
-margin_right = 480.0
-margin_bottom = 160.0
+margin_left = 208.0
+margin_top = 156.0
+margin_right = 271.0
+margin_bottom = 179.0
+size_flags_horizontal = 4
 text = "Start"
 
 [node name="Continue" type="Button" parent="VBoxContainer"]
-margin_top = 164.0
-margin_right = 480.0
-margin_bottom = 193.0
+margin_left = 198.0
+margin_top = 199.0
+margin_right = 281.0
+margin_bottom = 222.0
+size_flags_horizontal = 4
 text = "Continue"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
