@@ -1,9 +1,23 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scenes/battle/battlers/battler.gd" type="Script" id=1]
 [ext_resource path="res://fonts/COMIC.TTF" type="DynamicFontData" id=2]
 [ext_resource path="res://scenes/battle/battlers/target.png" type="Texture" id=3]
 [ext_resource path="res://scenes/battle/battlers/blank.png" type="Texture" id=4]
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.929412, 0.109804, 0.141176, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.533333, 0, 0.0823529, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -48,6 +62,8 @@ script = ExtResource( 1 )
 margin_right = 80.0
 margin_bottom = 10.0
 rect_min_size = Vector2( 80, 10 )
+custom_styles/fg = SubResource( 5 )
+custom_styles/bg = SubResource( 6 )
 custom_fonts/font = SubResource( 1 )
 percent_visible = false
 __meta__ = {

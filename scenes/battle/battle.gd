@@ -104,7 +104,7 @@ func set_battlers(enemies: PoolStringArray) -> void:
 		$Battlers.add_child(e)
 		e.position = $Battlers.get_child(i).position
 		e.connect("target_selected", self, "_on_target_selected")
-		e.connect("died", self, "_on_battler_died")
+		e.connect("died", self, "_on_battler_died", [], CONNECT_DEFERRED)
 		e.get_node("Target").group = bg
 	if $Battlers.get_child_count() > 4:
 		$Battlers.get_child(_target).set_target()
@@ -118,14 +118,13 @@ func _on_battler_died(battler: AnimatedSprite) -> void:
 	if battler.name == "Witch":
 		_change_state(OVER)
 	else:
-		battler.queue_free()
-		if $Battlers.get_child_count() == 5:
+		battler.free()
+		if $Battlers.get_child_count() == 4:
 			_won = true
 			_change_state(OVER)
 		else:
 # warning-ignore:narrowing_conversion
-			yield(get_tree(), "idle_frame")
-			_target = clamp(_target, 4, $Battlers.get_child_count())
+			_target = clamp(_target, 4, $Battlers.get_child_count() - 1)
 			$Battlers.get_child(_target).set_target()
 	
 
@@ -196,38 +195,23 @@ func _change_state(new_state) -> void:
 		WAIT:
 			pass
 		PLAYER:
-			$SpellShoot.play()
-#			if _spell_queue[0][0] == 2:
-#				_player.change_health(_player.skills[_spell_queue[0][0] * 3 +\
-#				_spell_queue[0][1]] * _player.attack)
-#				var change := _Change.instance()
-#				change.text = str(_player.skills[_spell_queue[0][0] * 3 +\
-#				_spell_queue[0][1]] * _player.attack)
-#				add_child(change)
-#				change.rect_global_position = _player.global_position - Vector2(0, 100)
-#				yield(_player, "anim_finished")
-#			else:
 			if _target >= $Battlers.get_child_count():
 				return
-			$Battlers.get_child(_target).change_health(_player.skills\
+			$SpellShoot.play()
+			var target := $Battlers.get_child(_target)
+			var spell := _Spell.instance()
+			add_child(spell)
+			spell.cast(_spell_queue[0][0], _player.global_position\
+			- Vector2(0, 32), target.global_position - Vector2(0, 32), 1.0)
+			yield(spell, "tween_all_completed")
+			target.change_health(_player.skills\
 			[_spell_queue[0][0] * 3 + _spell_queue[0][1]] * _player.attack)
 			var change := _Change.instance()
 			add_child(change)
 			change.text = str(_player.skills[_spell_queue[0][0] * 3 +\
 			_spell_queue[0][1]] * _player.attack)
-			change.rect_global_position = $Battlers.get_child(_target).global_position - Vector2(0, 100)
-			var spell := _Spell.instance()
-			add_child(spell)
-			spell.get_child(0).interpolate_property(
-				spell,
-				"global_position",
-				_player.global_position - Vector2(0, 32),
-				$Battlers.get_child(_target).global_position - Vector2(0, 32),
-				1.0
-			)
-			spell.get_child(0).start()
-			yield($Battlers.get_child(_target), "anim_finished")
-			spell.queue_free()
+			change.rect_global_position = target.global_position - Vector2(0, 100)
+			yield(target, "anim_finished")
 			_spell_queue.remove(0)
 			_change_state(ENEMY)
 		ENEMY:
