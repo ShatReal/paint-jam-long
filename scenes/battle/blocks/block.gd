@@ -2,9 +2,9 @@ extends TextureRect
 
 
 const _CANDIES := [
-	preload("res://scenes/battle/blocks/candy_0.png"),
-	preload("res://scenes/battle/blocks/candy_1.png"),
-	preload("res://scenes/battle/blocks/candy_2.png"),
+	preload("res://scenes/battle/blocks/000.png"),
+	preload("res://scenes/battle/blocks/001.png"),
+	preload("res://scenes/battle/blocks/002.png"),
 ]
 
 var type: int
