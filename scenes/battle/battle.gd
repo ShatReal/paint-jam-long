@@ -23,14 +23,13 @@ var _spell_queue := []
 var _enemies := []
 var _target := 0
 var _won := false
+var _boss: bool
 
 onready var _grid := $Blocks/Marg/Grid
 onready var _player := $Battlers/Witch
 
 
 func _ready() -> void:
-	randomize()
-	
 	_grid.columns = _NUM_COLS
 	for y in _NUM_ROWS:
 		var row = []
@@ -90,7 +89,8 @@ func _input(event: InputEvent) -> void:
 		_selected_blocks = []
 		
 
-func set_battlers(enemies: PoolStringArray) -> void:
+func set_battlers(enemies: PoolStringArray, boss := false) -> void:
+	_boss = boss
 	var bg := ButtonGroup.new()
 	for i in enemies.size():
 		var e: AnimatedSprite = load(enemies[i]).instance()
@@ -99,6 +99,11 @@ func set_battlers(enemies: PoolStringArray) -> void:
 		e.connect("target_selected", self, "_on_target_selected")
 		e.get_node("Target").group = bg
 	$Battlers.get_child(_target).get_child(0).set_target()
+	if boss:
+		$Background.texture = load("res://scenes/battle/bg.png")
+		$TextureRect.show()
+		yield(get_tree().create_timer(5), "timeout")
+		$TextureRect.hide()
 		
 
 func _on_target_selected(target: AnimatedSprite) -> void:
@@ -197,7 +202,7 @@ func _change_state(new_state) -> void:
 				target = $Battlers.get_child(_target).get_child(0)
 				var spell_sprite = _Spell.instance()
 				add_child(spell_sprite)
-				spell_sprite.cast(spell[0], _player.global_position, target.global_position, 1.0)
+				spell_sprite.cast(spell[0], _player.global_position + Vector2(0, -32), target.global_position + Vector2(0, -32), 1.0)
 				yield(spell_sprite, "tween_all_completed")
 			target.change_health(power)
 			yield(target, "anim_finished")
@@ -222,7 +227,14 @@ func _change_state(new_state) -> void:
 			else:
 				$Over/VBoxContainer/Label.text = "You lost!"
 			$Over.popup_centered()
+			get_parent().won = _won
 
 
 func _on_back_pressed() -> void:
-	emit_signal("scene_change_requested", "res://scenes/overworld/overworld.tscn")
+	if _boss:
+		if _won:
+			emit_signal("scene_change_requested", "res://scenes/end/end.tscn")
+		else:
+			emit_signal("scene_change_requested", "res://scenes/battle/battle.tscn", PoolStringArray(["res://scenes/battle/battlers/boss/boss.tscn"]))
+	else:
+		emit_signal("scene_change_requested", "res://scenes/overworld/overworld.tscn")

@@ -32,3 +32,9 @@ margin_left = -40.0
 margin_top = -84.0
 margin_right = 40.0
 margin_bottom = -74.0
+
+[node name="Target" parent="." index="1"]
+margin_left = -16.0
+margin_top = -48.0
+margin_right = 16.0
+margin_bottom = -16.0

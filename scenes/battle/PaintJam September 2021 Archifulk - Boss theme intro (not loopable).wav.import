@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/PaintJam September 2021 Archifulk - Boss theme intro (not loopable).wav-937a6e160ce0806706e3083aa18c80af.sample"
+
+[deps]
+
+source_file="res://scenes/battle/PaintJam September 2021 Archifulk - Boss theme intro (not loopable).wav"
+dest_files=[ "res://.import/PaintJam September 2021 Archifulk - Boss theme intro (not loopable).wav-937a6e160ce0806706e3083aa18c80af.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
