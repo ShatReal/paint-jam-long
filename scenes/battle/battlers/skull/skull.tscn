@@ -1,0 +1,35 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://scenes/battle/battlers/battler.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/battle/battlers/skull/001.png" type="Texture" id=2]
+[ext_resource path="res://scenes/battle/battlers/skull/002.png" type="Texture" id=3]
+[ext_resource path="res://scenes/battle/battlers/skull/003.png" type="Texture" id=4]
+[ext_resource path="res://scenes/battle/battlers/skull/004.png" type="Texture" id=5]
+[ext_resource path="res://scenes/battle/battlers/skull/000.png" type="Texture" id=6]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 6 ), ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "idle",
+"speed": 4.0
+}, {
+"frames": [ ExtResource( 5 ) ],
+"loop": true,
+"name": "die",
+"speed": 5.0
+} ]
+
+[node name="Skull" instance=ExtResource( 1 )]
+frames = SubResource( 1 )
+animation = "die"
+offset = Vector2( 0, -32 )
+max_health = 175
+health = 175
+skills = PoolIntArray( -10 )
+
+[node name="HealthBar" parent="." index="0"]
+margin_left = -40.0
+margin_top = -84.0
+margin_right = 40.0
+margin_bottom = -74.0

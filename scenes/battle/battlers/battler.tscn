@@ -1,32 +1,33 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scenes/battle/battlers/battler.gd" type="Script" id=1]
 [ext_resource path="res://fonts/COMIC.TTF" type="DynamicFontData" id=2]
 [ext_resource path="res://scenes/battle/battlers/target.png" type="Texture" id=3]
 [ext_resource path="res://scenes/battle/battlers/blank.png" type="Texture" id=4]
+[ext_resource path="res://scenes/battle/battlers/damage.wav" type="AudioStream" id=5]
+[ext_resource path="res://scenes/battle/battlers/PlayerHeal.wav" type="AudioStream" id=6]
 
-[sub_resource type="StyleBoxFlat" id=5]
+[sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.929412, 0.109804, 0.141176, 1 )
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.533333, 0, 0.0823529, 1 )
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=3]
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=4]
 size = 8
 font_data = ExtResource( 2 )
 
-[sub_resource type="Animation" id=3]
-resource_name = "damage"
+[sub_resource type="Animation" id=5]
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:self_modulate")
 tracks/0/interp = 1
@@ -40,8 +41,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "heal"
+[sub_resource type="Animation" id=6]
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:self_modulate")
 tracks/0/interp = 1
@@ -62,9 +62,9 @@ script = ExtResource( 1 )
 margin_right = 80.0
 margin_bottom = 10.0
 rect_min_size = Vector2( 80, 10 )
-custom_styles/fg = SubResource( 5 )
-custom_styles/bg = SubResource( 6 )
-custom_fonts/font = SubResource( 1 )
+custom_styles/fg = SubResource( 1 )
+custom_styles/bg = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
 percent_visible = false
 __meta__ = {
 "_edit_use_anchors_": false
@@ -73,7 +73,7 @@ __meta__ = {
 [node name="HealthLabel" type="Label" parent="HealthBar"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 4 )
 text = "XX / XX"
 align = 1
 valign = 1
@@ -93,8 +93,14 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/damage = SubResource( 3 )
-anims/heal = SubResource( 4 )
+anims/damage = SubResource( 5 )
+anims/heal = SubResource( 6 )
+
+[node name="Damage" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+
+[node name="Heal" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
 
 [connection signal="pressed" from="Target" to="." method="_on_target_pressed"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

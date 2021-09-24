@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/BlockMatch.wav-deef69e0ea939453910c0ec33aefe68f.sample"
+path="res://.import/damage.wav-d1c2b2963c91394bc29a5641ba7a1796.sample"
 
 [deps]
 
-source_file="res://scenes/battle/BlockMatch.wav"
-dest_files=[ "res://.import/BlockMatch.wav-deef69e0ea939453910c0ec33aefe68f.sample" ]
+source_file="res://scenes/battle/battlers/damage.wav"
+dest_files=[ "res://.import/damage.wav-d1c2b2963c91394bc29a5641ba7a1796.sample" ]
 
 [params]
 

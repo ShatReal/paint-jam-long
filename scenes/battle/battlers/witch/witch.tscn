@@ -23,7 +23,7 @@ offset = Vector2( 0, -32 )
 max_health = 100
 health = 100
 attack = 20
-skills = PoolIntArray( -1, -2, -4, -1, -2, -4, -1, -2, -4 )
+skills = PoolIntArray( -1, -2, -4, -1, -2, -4, -1, -2, 4 )
 
 [node name="HealthBar" parent="." index="0"]
 margin_left = -40.0

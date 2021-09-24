@@ -14,7 +14,6 @@ const _NUM_COLS := 16
 const _NUM_ROWS := 2
 
 const _Block := preload("res://scenes/battle/blocks/block.tscn")
-const _Change := preload("res://scenes/battle/change.tscn")
 const _Spell := preload("res://scenes/battle/spells/spell.tscn")
 
 var _state: int
@@ -22,11 +21,11 @@ var _selected_blocks := []
 var _drag_cancelled := false
 var _spell_queue := []
 var _enemies := []
-var _player: AnimatedSprite
-var _target := 4
+var _target := 0
 var _won := false
 
-onready var _grid := $Panel/MarginContainer/GridContainer
+onready var _grid := $Blocks/Marg/Grid
+onready var _player := $Battlers/Witch
 
 
 func _ready() -> void:
@@ -39,12 +38,6 @@ func _ready() -> void:
 			var t := _Block.instance()
 			_grid.add_child(t)
 			row.append(false)
-	
-	for sprite in $Battlers.get_children():
-		if sprite.name == "Witch":
-			_player = sprite
-		else:
-			_enemies.append(sprite)
 	
 	_change_state(WAIT)
 	
@@ -101,69 +94,68 @@ func set_battlers(enemies: PoolStringArray) -> void:
 	var bg := ButtonGroup.new()
 	for i in enemies.size():
 		var e: AnimatedSprite = load(enemies[i]).instance()
-		$Battlers.add_child(e)
-		e.position = $Battlers.get_child(i).position
+		_enemies.append(e)
+		$Battlers.get_child(i).add_child(e)
 		e.connect("target_selected", self, "_on_target_selected")
-		e.connect("died", self, "_on_battler_died", [], CONNECT_DEFERRED)
 		e.get_node("Target").group = bg
-	if $Battlers.get_child_count() > 4:
-		$Battlers.get_child(_target).set_target()
+	$Battlers.get_child(_target).get_child(0).set_target()
 		
 
 func _on_target_selected(target: AnimatedSprite) -> void:
-	_target = target.get_index()
+	_target = target.get_parent().get_index()
 	
 	
 func _on_battler_died(battler: AnimatedSprite) -> void:
-	if battler.name == "Witch":
-		_change_state(OVER)
-	else:
-		battler.free()
-		if $Battlers.get_child_count() == 4:
+	if battler in _enemies:
+		_enemies[_enemies.find(battler)] = null
+		var not_all_null = false
+		for i in _enemies:
+			if i:
+				not_all_null = true
+				break
+		if not not_all_null:
 			_won = true
 			_change_state(OVER)
 		else:
-# warning-ignore:narrowing_conversion
-			_target = clamp(_target, 4, $Battlers.get_child_count() - 1)
-			$Battlers.get_child(_target).set_target()
+			_target = clamp(_target, 0, _enemies.size() - 1)
+			$Battlers.get_child(_target).get_child(0).set_target()
+	else:
+		_change_state(OVER)
+	battler.queue_free()
 	
 
 func _get_block_coords(block: TextureRect) -> Vector2:
-# warning-ignore:integer_division
 	return Vector2(block.get_index() % _NUM_COLS, block.get_index() / _NUM_COLS)
 
 
 func _check_for_square() -> bool:
-	if _selected_blocks.size() == 4:
-		var first_square: TextureRect
-		var pos_0 := _get_block_coords(_selected_blocks[0])
-		for i in range(1, 4):
-			if (_get_block_coords(_selected_blocks[i]) - pos_0).abs() == Vector2(1, 1):
-				first_square = _selected_blocks[i]
-				break
-		if first_square:
-			var second_square: TextureRect
-			var pos_1 = _get_block_coords(first_square)
-			for i in range(1, 4):
-				var pos := _get_block_coords(_selected_blocks[i])
-				if pos.x == pos_0.x and pos.y == pos_1.y:
-					second_square = _selected_blocks[i]
-					break
-			if second_square:
-				var third_square: TextureRect
-				for i in range(1, 4):
-					var pos := _get_block_coords(_selected_blocks[i])
-					if pos.x == pos_1.x and pos.y == pos_0.y:
-						third_square = _selected_blocks[i]
-						break
-				if third_square:
-					return true
-				else:
-					return false
-			else:
-				return false
-		else:
-			return false
+	if not _selected_blocks.size() == 4:
+		return false
+	var first_square: TextureRect
+	var pos_0 := _get_block_coords(_selected_blocks[0])
+	for i in range(1, 4):
+		if (_get_block_coords(_selected_blocks[i]) - pos_0).abs() == Vector2(1, 1):
+			first_square = _selected_blocks[i]
+			break
+	if not first_square:
+		return false
+	var second_square: TextureRect
+	var pos_1 = _get_block_coords(first_square)
+	for i in range(1, 4):
+		var pos := _get_block_coords(_selected_blocks[i])
+		if pos.x == pos_0.x and pos.y == pos_1.y:
+			second_square = _selected_blocks[i]
+			break
+	if not second_square:
+		return false
+	var third_square: TextureRect
+	for i in range(1, 4):
+		var pos := _get_block_coords(_selected_blocks[i])
+		if pos.x == pos_1.x and pos.y == pos_0.y:
+			third_square = _selected_blocks[i]
+			break
+	if third_square:
+		return true
 	else:
 		return false
 		
@@ -195,38 +187,34 @@ func _change_state(new_state) -> void:
 		WAIT:
 			pass
 		PLAYER:
-			if _target >= $Battlers.get_child_count():
-				return
-			$SpellShoot.play()
-			var target := $Battlers.get_child(_target)
-			var spell := _Spell.instance()
-			add_child(spell)
-			spell.cast(_spell_queue[0][0], _player.global_position\
-			- Vector2(0, 32), target.global_position - Vector2(0, 32), 1.0)
-			yield(spell, "tween_all_completed")
-			target.change_health(_player.skills\
-			[_spell_queue[0][0] * 3 + _spell_queue[0][1]] * _player.attack)
-			var change := _Change.instance()
-			add_child(change)
-			change.text = str(_player.skills[_spell_queue[0][0] * 3 +\
-			_spell_queue[0][1]] * _player.attack)
-			change.rect_global_position = target.global_position - Vector2(0, 100)
-			yield(target, "anim_finished")
+			var spell: Array = _spell_queue[0]
 			_spell_queue.remove(0)
-			_change_state(ENEMY)
+			var power: int = _player.attack * _player.skills[spell[0] * 3 + spell[1]]
+			var target: AnimatedSprite
+			if spell[0] == 2 and spell[1] == 2:
+				target = _player
+			else:
+				target = $Battlers.get_child(_target).get_child(0)
+				var spell_sprite = _Spell.instance()
+				add_child(spell_sprite)
+				spell_sprite.cast(spell[0], _player.global_position, target.global_position, 1.0)
+				yield(spell_sprite, "tween_all_completed")
+			target.change_health(power)
+			yield(target, "anim_finished")
+			if target.health == 0:
+				_on_battler_died(target)
+			if not _state == OVER:
+				_change_state(ENEMY)
 		ENEMY:
-			for child in $Battlers.get_children():
-				if child is AnimatedSprite and not child.name == "Witch":
-					var dmg: int = child.skills[randi() % child.skills.size()] * child.attack
-					_player.change_health(dmg)
-					var change := _Change.instance()
-					change.text = str(dmg)
-					add_child(change)
-					change.rect_global_position = _player.global_position - Vector2(0, 100)
-					yield(_player, "anim_finished")
-			if _spell_queue.size() == 0:
+			for enemy in _enemies:
+				var power: int = enemy.attack * enemy.skills[randi() % enemy.skills.size()]
+				_player.change_health(power)
+				yield(_player, "anim_finished")
+			if _player.health == 0:
+				_on_battler_died(_player)
+			elif _spell_queue.size() == 0:
 				_change_state(WAIT)
-			elif not _state == OVER:
+			else:
 				_change_state(PLAYER)
 		OVER:
 			if _won:

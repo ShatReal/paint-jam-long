@@ -6,6 +6,7 @@ signal tween_all_completed
 
 func cast(i: int, start: Vector2, end: Vector2, time: float) -> void:
 	play(str(i))
+	$Shoot.play()
 	$Tween.interpolate_property(
 		self,
 		"global_position",

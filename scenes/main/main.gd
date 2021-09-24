@@ -17,3 +17,10 @@ func _change_scene(to: String, enemies := PoolStringArray()) -> void:
 		_cur_scene.connect("scene_change_requested", self, "_change_scene", [], CONNECT_DEFERRED)
 	if enemies.size() != 0:
 		_cur_scene.set_battlers(enemies)
+	match to:
+		"res://scenes/main_menu/main_menu.tscn":
+			$Music.stream = load("res://scenes/main_menu/PaintJamMusic2.wav")
+			$Music.play()
+		"res://scenes/overworld/overworld.tscn":
+			$Music.stream = load("res://scenes/overworld/PaintJamMusicExploration2.wav")
+			$Music.play()

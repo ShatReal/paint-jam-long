@@ -18,7 +18,7 @@ radius = 8.0
 radius = 12.0
 
 [node name="Test" instance=ExtResource( 1 )]
-_enemies = PoolStringArray( "res://scenes/battle/battlers/test/test.tscn", "res://scenes/battle/battlers/test/test.tscn", "res://scenes/battle/battlers/test/test.tscn" )
+_enemies = PoolStringArray( "res://scenes/battle/battlers/ghost/ghost.tscn" )
 
 [node name="AnimatedSprite" parent="." index="0"]
 position = Vector2( 0, -8 )

@@ -2,10 +2,12 @@ extends AnimatedSprite
 
 
 signal target_selected(this)
-signal died(this)
 signal anim_finished
 
 const _HEALTH_TEXT := "%d / %d"
+const _CHANGE_OFFSET := Vector2(-30, -140)
+
+const _Change := preload("res://scenes/battle/change.tscn")
 
 export(int, 1, 2_147_483_647) var max_health := 1
 export(int, 0, 2_147_483_647) var health := 1
@@ -21,7 +23,8 @@ func _ready() -> void:
 	if frames and frames.has_animation("idle"):
 		play("idle")
 	_health_bar.max_value = max_health
-	change_health(0)
+	_health_bar.value = health
+	_health_label.text = _HEALTH_TEXT % [health, max_health]
 
 
 # Negative values are damage and positive values are heal
@@ -30,16 +33,22 @@ func change_health(amt: int) -> void:
 	health = clamp(health + amt, 0, max_health)
 	_health_bar.value = health
 	_health_label.text = _HEALTH_TEXT % [health, max_health]
-	if amt < 0:
-		$AnimationPlayer.play("damage")
-	elif amt > 0:
-		$AnimationPlayer.play("heal")
-	else:
-		yield(get_tree().create_timer(1), "timeout")
-		emit_signal("anim_finished")
 	if health == 0:
-		yield(get_tree().create_timer(1.1), "timeout")
-		emit_signal("died", self)
+		$AnimationPlayer.play("damage")
+		if frames.has_animation("die"):
+			play("die")
+	else:
+		if amt < 0:
+			$AnimationPlayer.play("damage")
+			$Damage.play()
+		elif amt > 0:
+			$AnimationPlayer.play("heal")
+			$Heal.play()
+	var change := _Change.instance()
+	change.text = str(amt)
+	add_child(change)
+	change.rect_position = _CHANGE_OFFSET
+
 
 func set_target() -> void:
 	$Target.pressed = true
@@ -49,5 +58,5 @@ func _on_target_pressed() -> void:
 	emit_signal("target_selected", self)
 
 
-func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
+func _on_AnimationPlayer_animation_finished(_anim_name: String) -> void:
 	emit_signal("anim_finished")

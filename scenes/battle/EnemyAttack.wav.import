@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/SpellShoot.wav-a06b3e725ae11a86b7c327653eababcb.sample"
+path="res://.import/EnemyAttack.wav-2171cf069db4cbc04a02af3b2de61aed.sample"
 
 [deps]
 
-source_file="res://scenes/battle/SpellShoot.wav"
-dest_files=[ "res://.import/SpellShoot.wav-a06b3e725ae11a86b7c327653eababcb.sample" ]
+source_file="res://scenes/battle/EnemyAttack.wav"
+dest_files=[ "res://.import/EnemyAttack.wav-2171cf069db4cbc04a02af3b2de61aed.sample" ]
 
 [params]
 
