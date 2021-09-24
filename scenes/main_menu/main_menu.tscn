@@ -82,13 +82,13 @@ margin_right = 230.0
 margin_bottom = 150.0
 bbcode_enabled = true
 bbcode_text = "[center]Credits
-Art - djfoxyart
-Music - Wil Wisp and Archifulk
+Art - [url=https://djfoxyart.carrd.co/]DJ Nguyen[/url]
+Music - [url=https://twitter.com/wil_audio]Willa Morgan[/url] and [url=https://soundcloud.com/archifulk]Archifulk[/url]
 Programming - Exuin
 [url=https://godotengine.org/license]Made with Godot 3.3.3[/url][/center]"
 text = "Credits
-Art - djfoxyart
-Music - Wil Wisp and Archifulk
+Art - DJ Nguyen
+Music - Willa Morgan and Archifulk
 Programming - Exuin
 Made with Godot 3.3.3"
 

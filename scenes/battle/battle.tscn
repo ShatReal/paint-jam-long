@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://scenes/battle/battlers/witch/witch.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/battle/block_match.wav" type="AudioStream" id=2]
@@ -7,8 +7,11 @@
 [ext_resource path="res://scenes/battle/battle.gd" type="Script" id=5]
 [ext_resource path="res://scenes/main_menu/main_menu.tres" type="Theme" id=6]
 [ext_resource path="res://scenes/battle/static.png" type="Texture" id=7]
+[ext_resource path="res://scenes/battle/Win.wav" type="AudioStream" id=8]
 [ext_resource path="res://scenes/battle/bg without grass.png" type="Texture" id=9]
 [ext_resource path="res://scenes/battle/003.png" type="Texture" id=10]
+[ext_resource path="res://scenes/battle/Lose.wav" type="AudioStream" id=11]
+[ext_resource path="res://scenes/battle/gameover.png" type="Texture" id=12]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.639216, 0.286275, 0.643137, 1 )
@@ -41,36 +44,6 @@ position = Vector2( 260, 0 )
 
 [node name="Witch" parent="Battlers" instance=ExtResource( 1 )]
 position = Vector2( 400, 0 )
-
-[node name="Over" type="PopupPanel" parent="."]
-margin_right = 8.0
-margin_bottom = 8.0
-theme = ExtResource( 6 )
-custom_styles/panel = SubResource( 1 )
-popup_exclusive = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Over"]
-margin_right = 62.0
-margin_bottom = 50.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label" type="Label" parent="Over/VBoxContainer"]
-margin_right = 62.0
-margin_bottom = 23.0
-custom_fonts/font = SubResource( 2 )
-text = "You win?"
-
-[node name="Back" type="Button" parent="Over/VBoxContainer"]
-margin_top = 27.0
-margin_right = 62.0
-margin_bottom = 50.0
-custom_fonts/font = SubResource( 2 )
-text = "Back"
 
 [node name="BlockMatch" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 2 )
@@ -125,5 +98,57 @@ texture = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Lose" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 11 )
+
+[node name="Win" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+
+[node name="GameOver" type="TextureRect" parent="."]
+visible = false
+margin_right = 480.0
+margin_bottom = 270.0
+texture = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Over" type="PopupPanel" parent="."]
+visible = true
+anchor_left = 0.6625
+anchor_top = 0.266667
+anchor_right = 0.6625
+anchor_bottom = 0.266667
+margin_left = -31.0
+margin_top = -25.0
+margin_right = 31.0
+margin_bottom = 25.0
+theme = ExtResource( 6 )
+custom_styles/panel = SubResource( 1 )
+popup_exclusive = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Over"]
+margin_right = 62.0
+margin_bottom = 50.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Over/VBoxContainer"]
+margin_right = 62.0
+margin_bottom = 23.0
+custom_fonts/font = SubResource( 2 )
+text = "You win?"
+
+[node name="Back" type="Button" parent="Over/VBoxContainer"]
+margin_top = 27.0
+margin_right = 62.0
+margin_bottom = 50.0
+custom_fonts/font = SubResource( 2 )
+text = "Back"
 
 [connection signal="pressed" from="Over/VBoxContainer/Back" to="." method="_on_back_pressed"]

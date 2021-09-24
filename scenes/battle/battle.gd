@@ -102,7 +102,7 @@ func set_battlers(enemies: PoolStringArray, boss := false) -> void:
 	if boss:
 		$Background.texture = load("res://scenes/battle/bg.png")
 		$TextureRect.show()
-		yield(get_tree().create_timer(5), "timeout")
+		yield(get_tree().create_timer(6), "timeout")
 		$TextureRect.hide()
 		
 
@@ -224,9 +224,14 @@ func _change_state(new_state) -> void:
 		OVER:
 			if _won:
 				$Over/VBoxContainer/Label.text = "You won!"
+				$Win.play()
+				$Over.popup_centered()
 			else:
 				$Over/VBoxContainer/Label.text = "You lost!"
-			$Over.popup_centered()
+				$Lose.play()
+				$GameOver.show()
+				$Over.rect_position = Vector2(287, 47)
+				$Over.popup()
 			get_parent().won = _won
 
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://scenes/end/final.png" type="Texture" id=1]
+[ext_resource path="res://scenes/end/congrats.png" type="Texture" id=1]
 [ext_resource path="res://scenes/main_menu/main_menu.tres" type="Theme" id=2]
 [ext_resource path="res://scenes/end/end.gd" type="Script" id=3]
 
@@ -37,19 +37,18 @@ __meta__ = {
 }
 
 [node name="RichTextLabel" type="RichTextLabel" parent="PopupPanel"]
-margin_left = 4.0
-margin_top = 4.0
-margin_right = 236.0
-margin_bottom = 146.0
+margin_left = 10.0
+margin_right = 230.0
+margin_bottom = 150.0
 bbcode_enabled = true
 bbcode_text = "[center]Credits
-Art - djfoxyart
-Music - Wil Wisp and Archifulk
+Art - [url=https://djfoxyart.carrd.co/]DJ Nguyen[/url]
+Music - [url=https://twitter.com/wil_audio]Willa Morgan[/url] and [url=https://soundcloud.com/archifulk]Archifulk[/url]
 Programming - Exuin
 [url=https://godotengine.org/license]Made with Godot 3.3.3[/url][/center]"
 text = "Credits
-Art - djfoxyart
-Music - Wil Wisp and Archifulk
+Art - DJ Nguyen
+Music - Willa Morgan and Archifulk
 Programming - Exuin
 Made with Godot 3.3.3"
 
